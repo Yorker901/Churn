@@ -15,7 +15,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 from xgboost import XGBClassifier
-pickle_in = open('D:\Data Science\Project\\xgb.pkl', 'rb')
+pickle_in = open('./xgb.pkl', 'rb')
 xgb = pickle.load(pickle_in)
 
 st.title('Model Deployment: Churn Prediction')
