@@ -11,7 +11,7 @@ import pickle
 import streamlit as st
 
 # loading the trained model
-pip install xgboost
+!pip install xgboost
 import numpy as np
 import pandas as pd
 from xgboost import XGBClassifier
