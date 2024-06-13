@@ -53,3 +53,4 @@ validators==0.20.0
 watchdog==3.0.0
 xgboost==1.7.6
 zipp==3.16.2
+scikit-learn==0.24.2
