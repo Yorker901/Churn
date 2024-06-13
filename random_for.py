@@ -25,9 +25,8 @@ def Churn_data(account_length, voice_mail_plan, voice_mail_messages, day_mins,
 def main():
     st.title("Customer Churn Prediction")
 
-    with st.expander("Predict Customer Churn"):
-        st.write("Please fill in the parameters below to predict customer churn.")
-        
+    with st.sidebar:
+        st.header("Input Parameters")
         account_length = st.number_input("Account Length", min_value=0, max_value=100, value=0)
         voice_mail_plan = st.selectbox("Voice Mail Plan", ["No", "Yes"])
         voice_mail_messages = st.number_input("Voice Mail Messages", min_value=0, max_value=100, value=0)
@@ -57,12 +56,11 @@ def main():
             else:
                 st.warning("The customer is likely to churn.")
 
-    with st.expander("About"):
-        st.header("About")
-        st.write("""
-        This application uses a machine learning model to predict customer churn.
-        Provide the required inputs and click on 'Predict Churn' to see the results.
-        """)
+    st.header("About")
+    st.write("""
+    This application uses a machine learning model to predict customer churn.
+    Provide the required inputs and click on 'Predict Churn' to see the results.
+    """)
 
 if __name__ == '__main__':
     main()
