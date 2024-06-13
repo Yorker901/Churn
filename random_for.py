@@ -1,4 +1,5 @@
 import streamlit as st
+import pickle
 
 st.set_page_config(layout="centered", page_title="Customer Churn Prediction")
 
@@ -6,8 +7,20 @@ st.set_page_config(layout="centered", page_title="Customer Churn Prediction")
 pickle_in = open("rfcintel1.pkl", "rb")
 rfcintel1 = pickle.load(pickle_in)
 
-def Churn_data(...):
-    ...
+def Churn_data(account_length, voice_mail_plan, voice_mail_messages, day_mins,
+               evening_mins, night_mins, international_mins, customer_service_calls,
+               international_plan, day_calls, day_charge, evening_calls, evening_charge,
+               night_calls, night_charge, international_calls, international_charge, total_charge):
+    
+    # Encoding categorical variables
+    voice_mail_plan = 1 if voice_mail_plan == "Yes" else 0
+    international_plan = 1 if international_plan == "Yes" else 0
+    
+    prediction = rfcintel1.predict([[account_length, voice_mail_plan, voice_mail_messages, day_mins, evening_mins,
+                                     night_mins, international_mins, customer_service_calls, international_plan,
+                                     day_calls, day_charge, evening_calls, evening_charge, night_calls,
+                                     night_charge, international_calls, international_charge, total_charge]])
+    return prediction
 
 def prediction_page():
     st.title("Predict Customer Churn")
@@ -33,7 +46,10 @@ def prediction_page():
     total_charge = st.number_input("Total Charge", min_value=0.0, max_value=500.0, value=0.0)
     
     if st.button("Predict Churn"):
-        result = Churn_data(...)
+        result = Churn_data(account_length, voice_mail_plan, voice_mail_messages, day_mins,
+                            evening_mins, night_mins, international_mins, customer_service_calls,
+                            international_plan, day_calls, day_charge, evening_calls, evening_charge,
+                            night_calls, night_charge, international_calls, international_charge, total_charge)
         if result[0] == 0:
             st.success("The customer is not likely to churn.")
         else:
