@@ -172,12 +172,22 @@ def main():
     if st.sidebar.button("Login"):
         if authenticate(username, password):
             st.sidebar.success("Logged in as {}".format(username))
-            app_content()
+            navigation()
         else:
             st.sidebar.error("Authentication failed")
     
-# Function to display main app content
-def app_content():
+# Function to display navigation
+def navigation():
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Go to", ["Home", "About"])
+
+    if page == "Home":
+        home_content()
+    elif page == "About":
+        about_content()
+
+# Function to display home content
+def home_content():
     st.title('Customer Churn Prediction')
     st.write("""
     This application predicts whether a customer will churn (leave the service) based on their usage data and account information.
@@ -226,32 +236,31 @@ def app_content():
         importance_df = importance_df.sort_values(by='Importance', ascending=False)
         st.bar_chart(importance_df.set_index('Feature'))
 
-# Function to load the model
-def load_model():
-    with open('./rfcintel1.pkl', 'rb') as file:
-        model = pickle.load(file)
-    return model
+# Function to display about content
+def about_content():
+    st.title("About")
+    st.write("""
+    ### Churn Prediction Model
+    This model is designed to predict customer churn based on various features of their account and usage patterns. 
 
-# Function for churn prediction
-def churn_prediction(account_length, voice_mail_plan, voice_mail_messages, day_mins,
-                     evening_mins, night_mins, international_mins, customer_service_calls,
-                     international_plan, day_calls, day_charge, evening_calls, evening_charge,
-                     night_calls, night_charge, international_calls, international_charge, total_charge):
-    # Encode categorical variables
-    voice_mail_plan = 1 if voice_mail_plan == "Yes" else 0
-    international_plan = 1 if international_plan == "Yes" else 0
-    
-    # Prepare input data for prediction
-    input_data = np.array([[account_length, voice_mail_plan, voice_mail_messages, day_mins,
-                            evening_mins, night_mins, international_mins, customer_service_calls,
-                            international_plan, day_calls, day_charge, evening_calls, evening_charge,
-                            night_calls, night_charge, international_calls, international_charge, total_charge]])
-    
-    # Make prediction
-    prediction = xgb_model.predict(input_data)
-    
-    return "Customer will churn" if prediction[0] == 1 else "Customer will not churn"
+    **Features used in the model:**
+    - **Account Length:** The number of months the customer has been with the company.
+    - **Voice Mail Plan:** Whether the customer has a voice mail plan.
+    - **Voice Mail Messages:** The number of voice mail messages.
+    - **Day Minutes/Calls/Charge:** Total minutes, calls, and charge for calls made during the day.
+    - **Evening Minutes/Calls/Charge:** Total minutes, calls, and charge for calls made in the evening.
+    - **Night Minutes/Calls/Charge:** Total minutes, calls, and charge for calls made at night.
+    - **International Minutes/Calls/Charge:** Total minutes, calls, and charge for international calls.
+    - **Customer Service Calls:** The number of calls made to customer service.
+    - **Total Charge:** The total charge for all calls.
+
+    The model used is an XGBoost classifier, a powerful machine learning algorithm that is well-suited for classification tasks.
+
+    **How to use the application:**
+    1. Enter the required input parameters in the sidebar.
+    2. Click on 'Predict Churn' to see the prediction result.
+    3. Optionally, check 'Show Feature Importance' to see the importance of each feature in the model.
+    """)
 
 if __name__ == '__main__':
     main()
-
