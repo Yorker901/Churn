@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jan  4 19:42:41 2023
+@author: 20050
 """
 
 import pickle
@@ -36,20 +37,6 @@ def churn_prediction(account_length, voice_mail_plan, voice_mail_messages, day_m
     prediction = xgb_model.predict(input_data)
     
     return "Customer will churn" if prediction[0] == 1 else "Customer will not churn"
-
-def show_feature_importance(model):
-    try:
-        booster = model.get_booster()
-        importance = booster.get_score(importance_type='weight')
-        keys = list(importance.keys())
-        values = list(importance.values())
-        importance_df = pd.DataFrame(data={'Feature': keys, 'Importance': values})
-        importance_df = importance_df.sort_values(by='Importance', ascending=False)
-
-        st.subheader('Feature Importance')
-        st.bar_chart(importance_df.set_index('Feature'))
-    except AttributeError as e:
-        st.error("Error in retrieving feature importance: " + str(e))
 
 def main():
     st.set_page_config(page_title="Churn Prediction App", layout="wide")
@@ -99,7 +86,13 @@ def main():
             st.success(f'Prediction: {result}')
 
         if st.checkbox('Show Feature Importance'):
-            show_feature_importance(xgb_model)
+            st.subheader('Feature Importance')
+            feature_importance = xgb_model.get_booster().get_score(importance_type='weight')
+            keys = list(feature_importance.keys())
+            values = list(feature_importance.values())
+            importance_df = pd.DataFrame(data={'Feature': keys, 'Importance': values})
+            importance_df = importance_df.sort_values(by='Importance', ascending=False)
+            st.bar_chart(importance_df.set_index('Feature'))
 
     elif page == "About":
         st.title("About")
