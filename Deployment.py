@@ -131,7 +131,7 @@ def main():
     passwords = ["password1", "password2"]
     hashed_passwords = stauth.Hasher(passwords).generate()
 
-    authenticator = stauth.Authenticate(names, usernames, hashed_passwords, "churn_dashboard", "abcdef")
+    authenticator = stauth.Authenticate(names, usernames, hashed_passwords, "churn_dashboard", "abcdef", cookie_expiry_days=30)
     
     name, authentication_status, username = authenticator.login("Login", "main")
     
@@ -222,3 +222,4 @@ def main():
 
 if __name__ == '__main__': 
     main()
+
