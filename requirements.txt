@@ -55,3 +55,4 @@ xgboost==1.7.6
 zipp==3.16.2
 scikit-learn==0.24.2
 matplotlib
+streamlit_authenticator
