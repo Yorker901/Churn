@@ -143,7 +143,7 @@ def authenticate(username, password):
     # Replace with actual authentication logic
     correct_username = 'admin'
     correct_password = 'password'
-    return username == admin and password == password
+    return username == correct_username and password == correct_password
 
 # Function for churn prediction
 def churn_prediction(account_length, voice_mail_plan, voice_mail_messages, day_mins,
