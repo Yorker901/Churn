@@ -186,7 +186,7 @@ def main():
 
     # Display main content if logged in
     if st.session_state.get('logged_in'):
-        st.title('Customer Churn Prediction')
+        st.title('StayConnect')
         st.write("""
         This application predicts whether a customer will churn (leave the service) based on their usage data and account information.
         """)
@@ -225,17 +225,17 @@ def main():
                                       night_calls, night_charge, international_calls, international_charge, total_charge)
             st.success(f'Prediction: {result}')
 
-        if st.checkbox('Show Feature Importance'):
-            st.subheader('Feature Importance')
-            feature_importance = xgb_model.get_booster().get_score(importance_type='weight')
-            keys = list(feature_importance.keys())
-            values = list(feature_importance.values())
-            importance_df = pd.DataFrame(data={'Feature': keys, 'Importance': values})
-            importance_df = importance_df.sort_values(by='Importance', ascending=False)
-            st.bar_chart(importance_df.set_index('Feature'))
+        # if st.checkbox('Show Feature Importance'):
+        #     st.subheader('Feature Importance')
+        #     feature_importance = xgb_model.get_booster().get_score(importance_type='weight')
+        #     keys = list(feature_importance.keys())
+        #     values = list(feature_importance.values())
+        #     importance_df = pd.DataFrame(data={'Feature': keys, 'Importance': values})
+        #     importance_df = importance_df.sort_values(by='Importance', ascending=False)
+        #     st.bar_chart(importance_df.set_index('Feature'))
 
     else:
-        st.info('Please login to access the Churn Prediction App.')
+        st.info('Please login to access the StayConnect.')
 
     # About and additional sections can be added similarly as in the LinkedIn Jobs Recommender System
 
